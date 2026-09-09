@@ -16,7 +16,7 @@ public class FrontlineOrganization {
 
   public FrontlineOrganization(WebDriver driver) {
     this.driver = driver;
-    this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    this.wait = new WebDriverWait(driver, Duration.ofSeconds(20)); // XXX Changed from 30
   }
 
   public void selectOrganization() {
@@ -45,6 +45,13 @@ public class FrontlineOrganization {
     );
 
     System.out.println("Organization selected.");
-    System.out.println("Current URL: " + driver.getCurrentUrl());
+
+  /* Potentially prints live session token */
+    //System.out.println("Current URL: " + driver.getCurrentUrl());
+
+    String URL = driver.getCurrentUrl();
+    String[] UrlArray = URL.split("#");
+    URL = UrlArray[0];
+    System.out.println("Current URL: " + URL);
   }
 }

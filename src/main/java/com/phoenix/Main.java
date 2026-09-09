@@ -101,16 +101,19 @@
 
 package com.phoenix;
 
-import com.phoenix.frontline.FrontlineBrowser;
-import com.phoenix.frontline.FrontlineLogin;
-import com.phoenix.frontline.FrontlineOrganization;
-import com.phoenix.frontline.FrontlineNotifications;
+import com.phoenix.frontline.*;
+import com.phoenix.frontline.FrontlineJob;
+
+import java.util.List;
+
+import static com.phoenix.Colors.RESET;
+import static com.phoenix.Colors.*;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    System.out.println("Starting Frontline monitor...");
+    System.out.println(BRIGHT_MAGENTA + "Starting Frontline monitor..." + RESET);
 
     FrontlineBrowser browser = new FrontlineBrowser();
 
@@ -139,20 +142,35 @@ public class Main {
 
       notifications.closeImportantNotifications();
 
+      // 5. Scan Available Jobs
+      FrontlineJobScanner scanner =
+          new FrontlineJobScanner(
+              browser.getDriver()
+          );
+
+      List<FrontlineJob> jobs =
+          scanner.scanAvailableJobs();
+
       System.out.println();
-      System.out.println("================================");
+      System.out.println( BRIGHT_BLUE + BOLD+"================================"+ RESET);
+      System.out.println("JOB SCAN TEST COMPLETE");
+      System.out.println("Jobs found: " + jobs.size());
+      System.out.println(BRIGHT_BLUE + BOLD + "================================" + RESET);
+
+      System.out.println();
+      System.out.println(BRIGHT_BLUE + BOLD + "================================" + RESET);
       System.out.println(
-          "NOTIFICATION POPUP TEST SUCCESSFUL"
+          GREEN + BOLD + "NOTIFICATION POPUP TEST SUCCESSFUL" + RESET
       );
-      System.out.println("================================");
+      System.out.println(BRIGHT_BLUE + BOLD + "================================" + RESET);
       System.out.println();
 
-      Thread.sleep(30000);
+      Thread.sleep(20000);
 
     } catch (Exception e) {
 
       System.err.println();
-      System.err.println("TEST FAILED");
+      System.err.println(BRIGHT_RED + "TEST FAILED" + RESET);
       System.err.println();
 
       e.printStackTrace();

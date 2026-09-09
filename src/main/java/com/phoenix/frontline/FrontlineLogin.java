@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import static com.phoenix.Colors.*;
 
 public class FrontlineLogin {
 
@@ -17,12 +18,12 @@ public class FrontlineLogin {
 
   public FrontlineLogin(WebDriver driver) {
     this.driver = driver;
-    this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
   }
 
   public void login() {
 
-    System.out.println("Starting Frontline login...");
+    System.out.println(BRIGHT_MAGENTA + "Starting Frontline login...\n" + RESET);
 
     if (!driver.getCurrentUrl().contains("login.frontlineeducation.com")) {
       driver.get(AppConfig.FRONTLINE_LOGIN_URL);
@@ -30,7 +31,7 @@ public class FrontlineLogin {
 
     WebElement usernameField = findUsernameField();
 
-    System.out.println("Entering username...");
+    System.out.println("Entering username...\n");
 
     usernameField.clear();
     usernameField.sendKeys(
@@ -39,7 +40,7 @@ public class FrontlineLogin {
 
     WebElement passwordField = findPasswordField();
 
-    System.out.println("Entering password...");
+    System.out.println("Entering password...\n");
 
     passwordField.clear();
     passwordField.sendKeys(
@@ -48,7 +49,7 @@ public class FrontlineLogin {
 
     WebElement loginButton = findLoginButton();
 
-    System.out.println("Clicking Sign In...");
+    System.out.println("Clicking Sign In...\n");
 
     loginButton.click();
 
@@ -56,8 +57,13 @@ public class FrontlineLogin {
 
     waitForLoginCompletion();
 
-    System.out.println("Login completed.");
-    System.out.println("Current URL: " + driver.getCurrentUrl());
+    System.out.println(BRIGHT_MAGENTA + "Login completed.\n" + RESET);
+
+    /* This potentially prints a live session token*/
+   // System.out.println("Current URL: " + driver.getCurrentUrl());
+
+    System.out.println("Organization selected.");
+    System.out.println("Frontline application loaded.");
   }
 
 
@@ -224,9 +230,17 @@ public class FrontlineLogin {
      */
     System.out.println();
     System.out.println("------------------------------------------");
-    System.out.println("Could not find username field.");
-    System.out.println("Current URL:");
-    System.out.println(driver.getCurrentUrl());
+    System.out.println(RED + "Could not find username field." + RESET);
+
+    /* Potentially prints a live session token */
+    //System.out.println("Current URL:");
+    //System.out.println(driver.getCurrentUrl());
+
+
+    String URL = driver.getCurrentUrl();
+    String[] UrlArray = URL.split("#");
+    URL = UrlArray[0];
+    System.out.println("Current URL: " + URL);
 
     System.out.println();
     System.out.println("Visible input elements:");
